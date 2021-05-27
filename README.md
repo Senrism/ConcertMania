@@ -17,6 +17,12 @@ Cara Pakai :
 
 8.php artisan serve
 
+<br>
+*catatan
+Pastikan insert dulu beberapa concert(konser) untuk memunculkan menu di landing page agar bisa melakukan booking
+pastikan jumlah tiket lebih dari 0 , kalo 0 sold out gabisa booking
+
+
 Akun admin :
 
 admin@concert.com
