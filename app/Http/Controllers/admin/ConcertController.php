@@ -64,7 +64,7 @@ class ConcertController extends Controller
 
         }catch(Exception $e){
 
-            response()->json(['data' => 'Success']);
+            return response()->json(['data' => 'Success']);
         }
     }
 

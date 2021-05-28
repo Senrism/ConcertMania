@@ -46,7 +46,7 @@ class TicketController extends Controller
     public function store(TicketRequest $request)
     {
         $data = $this->process->findAndCheck($request->number);
-        dd($data);
+        return response()->json(['data' => $data]);
     }
 
     /**

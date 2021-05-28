@@ -9,7 +9,7 @@
                             <a href="{{route('home')}}" class="btn btn-sm btn-dark" style="float:right;">Back</a>
                         </div>
                         <div class="card-body" style="height: 50vh;">
-                            {{ Form::open(['route' => 'ticket.checkin']) }}
+                            {{ Form::open(['id' => 'formCheckin']) }}
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-4">
@@ -28,50 +28,31 @@
                                                 </div>
                                             </div>
                                         </div>
+                            {{ Form::close() }}
+
                                         <div class="col-lg-8 mt-4">
                                             <div class="card" style="height: 40vh;">
                                                 <div class="card-body">
-                                                    @if (\Session::has('data'))
-                                                        @php
-                                                            $data = session()->get( 'data' );
-                                                        @endphp
-                                                        <div class="container">
-                                                            <div class="row">
-                                                                <div class="col-lg-8 col-12">
-                                                                    {{Form::label('name', 'Name')}}
-                                                                    <p> <b>{{$data->name}}</b> </p>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="row">
-                                                                <div class="col-lg-8 col-12">
-                                                                    {{Form::label('phone', 'Phone Number')}}
-                                                                    <p> <b>{{$data->phone}}</b> </p>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="row">
-                                                                <div class="col-lg-8 col-12">
-                                                                    {{Form::label('ticket_number', 'Ticket Number')}}
-                                                                    <p> <b>{{$data->tickets->number}}</b> </p>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="row">
-                                                                <div class="col-lg-8 col-12">
-                                                                    {{Form::label('status', 'Status')}}
-                                                                    <br>
-                                                                    <span class="badge badge-success" style="font-size: 15px;">Checked-in</span>
-                                                                </div>
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col-lg-8 col-12">
+                                                                {{Form::label('name', 'Name')}}
+                                                                <p class="name"> <b></b> </p>
                                                             </div>
                                                         </div>
-                                                    @endif
+
+                                                        <div class="row">
+                                                            <div class="col-lg-8 col-12">
+                                                                {{Form::label('phone', 'Phone Number')}}
+                                                                <p class="phone"> <b></b> </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            {{ Form::close() }}
                         </div>
                     </div>
                 </div>
@@ -79,3 +60,59 @@
         </div>
     </div>
 @endsection
+@push('after_js')
+<script>
+    $(document).on('click', '#submit', function(e){
+        e.preventDefault();
+        var form =  $('#formCheckin');
+        var formData = new FormData(form[0]);
+
+        $.ajax({
+            type:'POST',
+            url :'{{route("ticket.checkin")}}',
+            data:formData,
+            processData: false,
+            contentType: false,
+        success:function(data){
+            if(data.data == null){
+                swal.fire({
+                    icon: "error",
+                    title: "Oops",
+                    text: "This ticket number is not registered",
+                    showConfirmButton: false,
+                    timer: 1000
+                });
+            }
+            if(data.data == 'checked'){
+                swal.fire({
+                    icon: "error",
+                    title: "Oops",
+                    text: "This ticket number is already check-in",
+                    showConfirmButton: false,
+                    timer: 1000
+                });
+            }else{
+
+                $('.name').empty().append(data.data[0].name);
+                $('.phone').empty().append(data.data[0].phone);
+
+                swal.fire({
+                    icon: "success",
+                    title: "Yes",
+                    text: "check-in success",
+                    showConfirmButton: false,
+                    timer: 1000
+                });
+
+            }
+
+        },
+        error: function(errors){
+            $.each(errors.responseJSON.errors, function (key, val) {
+               alert(val);
+            });
+        }
+        });
+    });
+</script>
+@endpush
