@@ -26,7 +26,11 @@
                                 </h4>
                             <br>
                             <div class="col-lg-12 text-center">
-                                <a href="{{route('booking', $d->id)}}" class="btn btn-dark btn-lg">Book Ticket Now</a>
+                                @if($d->ticket_total - $d->tickets->count() == 0)
+                                    <button class="btn btn-dark btn-lg" disabled>SOLD OUT</button>
+                                @else
+                                    <a href="{{route('booking', $d->id)}}" class="btn btn-dark btn-lg">Book Ticket Now</a>
+                                @endif
                             </div>
                         </div>
                     </div>
