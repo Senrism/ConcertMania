@@ -18,8 +18,7 @@ class LandingController extends Controller
 
     public function index()
     {
-        $data = $this->process->getAll();
-        return view('welcome', compact('data'));
+        return view('welcome');
     }
 
     /**
@@ -29,7 +28,8 @@ class LandingController extends Controller
      */
     public function create()
     {
-        //
+        $data = $this->process->getAll();
+        return view('guest.index', compact('data'));
     }
 
     /**

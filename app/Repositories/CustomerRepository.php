@@ -23,4 +23,12 @@ class CustomerRepository implements CustomerContract{
     public function findId($id){
         return $this->model->find($id);
     }
+
+    public function updating(array $attributes){
+        try{
+            return $this->model->where('id', $attributes['id'])->update($attributes);
+        }catch(Exception $e){
+            return $e;
+        }
+    }
 }

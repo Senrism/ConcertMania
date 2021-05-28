@@ -1,83 +1,39 @@
-@extends('layouts.app')
+@extends('layouts.landing')
+
 @section('content')
-    <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                    <div class="card">
-                        <div class="card-header">
-                            {{ __('Registering for ticket') }}
-                            <a href="{{route('landing')}}" class="btn btn-sm btn-dark" style="float:right;">Back</a>
-                        </div>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            <div class="row mt-2">
+                @foreach ($data as $d)
+                <div class="col-lg-3 col-12 mt-1">
+                    <div class="card bg-transparent" style="border-color:black;">
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-8">
-                                    {{ Form::open(['route' => 'booked']) }}
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-lg-8 col-12">
-                                                <input type="hidden" name="id" value="{{$id}}">
-                                                {{Form::label('name', 'Your Name')}}
-                                                {{Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'Your Name', 'autofocus' => 'true'])}}
-                                                @error('name')
-                                                    <div class="text-danger">{{ $message }}</div>
-                                                @enderror
-
-                                            </div>
-                                        </div>
-
-                                        <div class="row mt-1">
-                                            <div class="col-lg-8 col-12">
-                                                {{Form::label('address', 'Your Address')}}
-                                                {{Form::textarea('address', '', ['class' => 'form-control', 'placeholder' => 'Address', 'rows' => 2, 'cols' => 10])}}
-                                                @error('address')
-                                                    <div class="text-danger">{{ $message }}</div>
-                                                @enderror
-
-                                            </div>
-                                        </div>
-
-                                        <div class="row mt-1">
-                                            <div class="col-lg-2 col-12">
-                                                {{Form::label('gender', 'Gender')}}
-                                                {{Form::select('gender', array('M' => 'Male', 'F' => 'Female'), '',['class' => 'form-control'])}}
-                                                @error('gender')
-                                                    <div class="text-danger">{{ $message }}</div>
-                                                @enderror
-
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-lg-4 col-12">
-                                                {{Form::label('phone', 'Your Phone Number')}}
-                                                {{Form::text('phone', '', ['class' => 'form-control', 'placeholder' => 'Your Phone Number'])}}
-                                                @error('phone')
-                                                    <div class="text-danger">{{ $message }}</div>
-                                                @enderror
-
-                                            </div>
-                                        </div>
-
-
-                                        <div class="row mt-3">
-                                            <div class="col-lg-4 col-12">
-                                                {{Form::submit('Booking Ticket For This Concert', ['class' => 'btn btn-success btn-md', 'id' => 'submit'])}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {{ Form::close() }}
-                                </div>
-                                @if (\Session::has('ticket'))
-                                    <div class="col-4">
-                                        <iframe id="framePDF" src="{{asset('storage/ticket/'.\Session::get('ticket').'.pdf')}}" frameborder="0" height="500px"></iframe>
-                                    </div>
-                                @endif
+                            <div class="col-lg-12 col-12 text-center">
+                                <img src="{{asset('storage/img/'.$d->image)}}" alt="" srcset="" width="300px" height="200px">
+                            </div>
+                            <br>
+                            <h4>New Concert : <b> {{$d->band}} </b> </h4>
+                            <h5>
+                                held on : {{$d['date']}}
+                            </h5>
+                            <br>
+                            <h4 class="text-center">
+                                Ticket Available : {{$d->ticket_total - $d->tickets->count()}}
+                            </h4>
+                            <h4 class="text-center">
+                                Ticket Sold : {{$d->tickets->count()}}
+                                </h4>
+                            <br>
+                            <div class="col-lg-12 text-center">
+                                <a href="{{route('booking', $d->id)}}" class="btn btn-dark btn-lg">Book Ticket Now</a>
                             </div>
                         </div>
                     </div>
                 </div>
+            @endforeach
             </div>
         </div>
     </div>
+</div>
 @endsection
-

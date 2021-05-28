@@ -2,11 +2,11 @@
 
 namespace App\Contracts;
 
-Interface ConcertContract
+Interface TicketContract
 {
     function getAll();
-    function storing(array $attributes);
+    function findAndCheck($number);
     function dropping($id);
     function update(array $attributes, $id);
-    function findId($id);
+
 }

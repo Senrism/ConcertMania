@@ -30,8 +30,7 @@
                                         <td>{{$d->tickets->count()}}</td>
                                         <td style="width:20%;">
                                             <a href="{{route('concert.delete', $d->id)}}" class="btn btn-sm btn-danger mt-1">Cancel Concert</a>
-                                            <a href="" class="btn btn-sm btn-info mt-1">Update Concet</a>
-                                            <a href="" class="btn btn-sm btn-primary mt-1">Show Detail</a>
+                                            <a href="{{route('concert.show', $d->id)}}" class="btn btn-sm btn-primary mt-1">Show Booking List</a>
                                         </td>
                                     </tr>
                                     @endforeach

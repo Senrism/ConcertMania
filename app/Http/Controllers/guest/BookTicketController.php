@@ -24,9 +24,9 @@ class BookTicketController extends Controller
         $this->process = $process;
     }
 
-    public function index($id)
+    public function index()
     {
-        return view('guest.index', compact('id'));
+
     }
 
     /**
@@ -34,9 +34,9 @@ class BookTicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        return view('guest.create', compact('id'));
     }
 
 

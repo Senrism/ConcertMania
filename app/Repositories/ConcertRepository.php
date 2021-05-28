@@ -40,4 +40,8 @@ class ConcertRepository implements ConcertContract{
     public function update(array $attributes, $id){
         return $this->model->all();
     }
+
+    public function findId($id){
+        return $this->model->find($id);
+    }
 }

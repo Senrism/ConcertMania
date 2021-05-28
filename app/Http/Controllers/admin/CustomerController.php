@@ -6,25 +6,23 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 // Requests
-use App\Http\Requests\TicketRequest;
+use App\Http\Requests\CustomerRequest;
 
-// model
-use App\Models\Ticket;
+// Repository
+use App\Repositories\CustomerRepository;
 
-// Repositories
-use App\Repositories\TicketRepository;
-
-class TicketController extends Controller
+class CustomerController extends Controller
 {
+
     private $process;
 
-    public function __construct(TicketRepository $process){
+    public function __construct(CustomerRepository $process){
         $this->process = $process;
     }
 
     public function index()
     {
-        return view('admin.ticket.index');
+        //
     }
 
     /**
@@ -43,10 +41,9 @@ class TicketController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TicketRequest $request)
+    public function store(Request $request)
     {
-        $data = $this->process->findAndCheck($request->number);
-        dd($data);
+        //
     }
 
     /**
@@ -68,7 +65,8 @@ class TicketController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = $this->process->findId($id);
+        return view('admin.customer.edit', compact('data'));
     }
 
     /**
@@ -78,9 +76,12 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CustomerRequest $request)
     {
-        //
+        $attributes = $request->only(['id', 'name', 'address', 'gender', 'phone']);
+        $this->process->updating($attributes);
+
+        return redirect()->back()->with('success', 'data updated');
     }
 
     /**
@@ -91,7 +92,6 @@ class TicketController extends Controller
      */
     public function destroy($id)
     {
-        $this->process->dropping($id);
-        return redirect()->back()->with('success', 'success delete');
+        //
     }
 }

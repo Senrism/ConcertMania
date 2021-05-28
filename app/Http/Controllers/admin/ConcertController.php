@@ -76,7 +76,8 @@ class ConcertController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = $this->process->findId($id);
+        return view('admin.concert.show', compact('data'));
     }
 
     /**

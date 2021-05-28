@@ -30,7 +30,7 @@ class LandingRepository implements LandingContract{
             $ticket_number = '';
             DB::transaction(function() use($attributes, &$id, &$ticket_number){
                 $customer = $this->customer->create($attributes);
-                $ticket   = $this->ticket::create(['number' => rand(1111111111,9999999999),'status' => 1,]);
+                $ticket   = $this->ticket::create(['number' => rand(1111111111,9999999999),'status' => 0,]);
                 $concert  = $this->model->find($id);
                 $concert->tickets()->attach($ticket);
                 $customer->tickets()->attach($ticket);
